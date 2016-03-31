@@ -26,6 +26,7 @@ var object = {
     "apples": 4
   }
 };
+
 function createFruitMap(object) {
 var track = {};
 var map = Object.keys(object).reduce(function(arr, key){
@@ -40,16 +41,21 @@ var map = Object.keys(object).reduce(function(arr, key){
     });
   return arr;
 },[]);
-console.log(map);
-map = map.forEach(function(fruit) {
-  var min = fruit.suppliers.reduce(function(a,b) {return Math.min(a.price, b.price);});
-  var max = fruit.suppliers.reduce(function(a,b) {return Math.max(a.price, b.price);});
-  var minSellers = fruit.suppliers.find(function(supplier){return supplier.price===min;});
-  var maxSellers = fruit.suppliers.find(function(supplier){return supplier.price===max;});
-  fruit.cheapest = minSellers;
-  fruit.expensive = maxSellers;
-  return map;
-});
+// console.log(map);
+for (var i=0; i<map.length; i++) {
+  // console.log("This is map[i].suppliers",map[i].suppliers);
+  var min = map[i].suppliers.reduce(function(a,b) {console.log("this is a",a);return Math.min(a, b.price);},map[i].suppliers[0].price);
+  var max = map[i].suppliers.reduce(function(a,b) {return Math.max(a, b.price);},map[i].suppliers[0].price);
+  // console.log("this is min",min);
+  // console.log("this is max",max);
+  var minSellers = map[i].suppliers.filter(function(supplier){return supplier.price===min;});
+  var maxSellers = map[i].suppliers.filter(function(supplier){return supplier.price===max;});
+  map[i].cheapest = minSellers;
+  map[i].expensive = maxSellers;
+  // console.log("This is minSellers",minSellers);
+  // console.log("This is maxSellers",maxSellers);
+}
+// console.log(map);
 return map;
 }
 
